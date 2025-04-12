@@ -1,131 +1,129 @@
-# info7255-bigdata-app
+Certainly! Here's a professionally structured and comprehensive `README.md` for your GitHub repository:
+
+---
+
 # BigData Indexing using RabbitMQ and Elasticsearch
 
-A RESTful API system for healthcare plan management with advanced features including CRUD operations, JSON Schema validation, Redis key-value storage, Elasticsearch indexing, and message queueing with RabbitMQ.
+A RESTful API system for managing structured JSON objects, integrating advanced features such as CRUD operations, JSON Schema validation, Redis key-value storage, Elasticsearch indexing, and asynchronous processing with RabbitMQ.
 
-## Features
+## 🚀 Features
 
-- REST API supporting structured JSON data
-- Complete CRUD operations with merge support and cascaded delete
-- JSON Schema validation
-- Key-value storage using Redis
-- Parent-child indexing and search using Elasticsearch
-- Message queueing with RabbitMQ for asynchronous operations
-- JWT-based authentication
+- **RESTful API**:Supports POST, PUT, PATCH, GET, and DELETE methods for managing JSON data
+- **JSON Schema Validation**:Ensures incoming JSON objects adhere to predefined schemas
+- **Redis Integration**:Stores JSON objects as key-value pairs for efficient retrieval
+- **Elasticsearch Indexing**:Indexes data for advanced search capabilities
+- **RabbitMQ Queueing**:Manages indexing requests asynchronously to enhance performance
+- **ETag-Based Caching**:Implements ETag headers for efficient response caching and validation
 
-## Architecture
+## 🛠 Tech Stack
 
-The system follows a microservice architecture:
-1. **API Layer**: Handles HTTP requests and responses
-2. **Service Layer**: Contains business logic and orchestrates operations
-3. **Storage Layer**: Redis for primary data storage
-4. **Search Layer**: Elasticsearch for advanced search capabilities
-5. **Message Queue**: RabbitMQ for asynchronous operations
+- **Programming Language** Go (Gin-Gonic framewor)
+- **Cache** Reds
+- **Search Engine** Elasticsearh
+- **Message Queue** RabbitQ
+- **Containerization** Docker & Docker Compoe
 
-## Prerequisites
+## 🔄 Data Flow
 
-- Go 1.18+
-- Redis server
-- Elasticsearch 8.x
-- RabbitMQ
+1. **Authentication*: (If implemented) Secure API access using OAuth 2.0 tokes.
+2. **Validation*: Validate API requests using JSON Schea.
+3. **Data Creation*: Create JSON objects via POST requess.
+4. **Redis Storage*: Store validated JSON objects in Redis as key-value pais.
+5. **Queue Indexing Requests*: Publish messages to RabbitMQ for indexig.
+6. **Elasticsearch Indexing*: Consume messages from RabbitMQ and index data into Elasticsearh.
+7. **Search & Retrieval*: Use Kibana or Elasticsearch APIs to query and retrieve indexed daa.
 
-## Setup and Installation
+## 📦 Setup Instructions
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Shubham290646/BigDataIndexing-using-RabbitMQ-and-Elasticsearch.git
-   cd BigDataIndexing-using-RabbitMQ-and-Elasticsearch
+### Prerequisites
 
-Install dependencies
-bashgo mod download
+Ensure the following are installed on your system:
+- [Go](https://golang.org/doc/instll)
+- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/instal/)
 
-Start required services
-bash# Start Redis
-redis-server
+### Clone the Repositoy
 
-# Start Elasticsearch
-elasticsearch
+```bash
+git clone https://github.com/Shubham290646/BigDataIndexing-using-RabbitMQ-and-Elasticsearch.git
+cd BigDataIndexing-using-RabbitMQ-and-Elasticsearch
+``
+
 
-# Start RabbitMQ
-rabbitmq-server
+### Start Services with Docker Compoe
 
-Run the application
-bashgo run main.go
+```bash
+docker-compose up -d
+``
 
-Run the consumer (in a separate terminal)
-bashgo run consumer.go
+This command will start the following services:
 
+- **Redis*: Key-value sore
+- **Elasticsearch*: Search enine
+- **Kibana*: Visualization tool for Elasticserch
+- **RabbitMQ*: Message brker
 
-API Endpoints
-MethodEndpointDescriptionPOST/v1/planCreate a new medical planGET/v1/plan/Retrieve a plan by IDPATCH/v1/plan/Update specific fields of a planPUT/v1/planReplace an entire planDELETE/v1/plan/Delete a plan and all associated resourcesPOST/v1/searchSearch for plans using Elasticsearch
-Authentication
-The API uses JWT token-based authentication:
+### Run the Go Application
 
-Get a token using the appropriate authentication endpoint
-Include the token in the Authorization header for subsequent requests
+In a new terminal window, navigate to the project directory and ru:
 
-Example Usage
-Create a Plan
-bashcurl -X POST http://localhost:8080/v1/plan \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer [YOUR_TOKEN]" \
-  -d '{
-    "planCostShares": {
-      "deductible": 2000,
-      "_org": "example.com",
-      "copay": 23,
-      "objectId": "1234vxc2324sdf-5014",
-      "objectType": "membercostshare"
-    },
-    "linkedPlanServices": [
-      {
-        "linkedService": {
-          "_org": "example.com",
-          "objectId": "1234520xvc30asdf-502",
-          "objectType": "service",
-          "name": "Yearly physical"
-        },
-        "planserviceCostShares": {
-          "deductible": 10,
-          "_org": "example.com",
-          "copay": 0,
-          "objectId": "1234512xvc1314asdfs-503",
-          "objectType": "membercostshare"
-        },
-        "_org": "example.com",
-        "objectId": "27283xvx9asdff-504",
-        "objectType": "planservice"
-      }
-    ],
-    "_org": "example.com",
-    "objectId": "12xvxc345ssdsds-508",
-    "objectType": "plan",
-    "planType": "inNetwork",
-    "creationDate": "12-12-2017"
-  }'
-Search for Plans
-bashcurl -X POST http://localhost:8080/v1/search \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer [YOUR_TOKEN]" \
-  -d '{
-    "key": "copay",
-    "value": "23"
-  }'
-Advanced Elasticsearch Queries
-The system supports various advanced Elasticsearch queries for parent-child relationships:
-Get All Plans with a Specific Copay Value
-GET /plans/_search
-{
-  "query": {
-    "has_child": {
-      "type": "planCostShares",
-      "query": {
-        "range": {
-          "copay": {
-            "gte": 2000
-          }
-        }
-      }
-    }
-  }
-}
+```bash
+go run main.go
+``
+
+
+### Start the RabbitMQ Consumer
+
+In another terminal window, navigate to the project directory and ru:
+
+```bash
+go run consumer/main.go
+``
+
+
+## 🔗 Service Endpoints
+
+- **Elasticsearc**: [http://localhost:9200](http://localhost:200)
+- **Kiban**: [http://localhost:5601](http://localhost:601)
+- **RabbitMQ Managemen**: [http://localhost:15672](http://localhost:1672)
+  - **Usernam**: uest
+  - **Passwor**: uest
+
+## 📚 API Endpoints
+
+### Plan Management
+
+- **Create Pln**: `POST /v1plan`
+  - Creates a new plan from the requestbody.
+
+- **Update Pln**: `PUT /v1/plan{id}`
+  - Updates an existing plan by ID. Requires a valid ETag in the `If-Match` hader.
+
+- **Patch Pln**: `PATCH /v1/plan{id}`
+  - Partially updates an existing plan by ID. Requires a valid ETag in the `If-Match` hader.
+
+- **Retrieve Pln**: `GET /v1/plan{id}`
+  - Retrieves a plan by ID. Optionally provide an ETag in the `If-None-Match` header for cahing.
+
+- **Delete Pln**: `DELETE /v1/plan{id}`
+  - Deletes a plan by ID. Requires a valid ETag in the `If-Match` hader.
+
+## 🧪 Testing the API
+
+You can use tools like [Postman](https://www.postman.com/) or [cURL](https://curl.se/) to test the API endpoints. Ensure that the necessary headers (e.g., `Content-Type`, `If-Match`, `If-None-Match`) are set appropriately.
+
+## 📁 Project Strcture
+
+```plaintext
+├── consumer/             # RabbitMQ consumer service
+├── data/                 # Sample data and JSON schemas
+├── database/             # Database connection and initialization
+├── elastic/              # Elasticsearch integration
+├── handlers/             # HTTP request handlers
+├── middleware/           # Custom middleware functions
+├── models/               # Data models and schemas
+├── rabbitmq/             # RabbitMQ publisher and connection setup
+├── repositories/         # Data access layer
+├── routes/               # API route definitions
+├── services/             # Business logic and services
+├── docker-compose.yaml   # Docker Compose configuration
+├── go.mod                # 
