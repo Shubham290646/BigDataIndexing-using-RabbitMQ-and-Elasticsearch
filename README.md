@@ -145,22 +145,5 @@ Use tools like [Postman](https://www.postman.com/) or `curl` to test the API. Ma
 
 ## 👨‍💻 Author
 
-Shubham Khandekar  
-[GitHub](https://github.com/Shubham290646)
+Shubham Mangaonkar  
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
-```
-
----
-
-Let me know if you want me to:
-
-- Add **example API request/responses**
-- Include a **demo screenshot or architecture diagram**
-- Write a **short project summary for LinkedIn/portfolio**
-
-You're good to go with this now 🔥
