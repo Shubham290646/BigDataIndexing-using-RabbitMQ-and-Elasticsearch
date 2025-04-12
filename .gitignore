@@ -1,0 +1,48 @@
+# Project specific files
+*.test
+*.out
+vendor/
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Temporary files
+logs/
+*.log
+*.log.*
+
+# IDE specific files
+*.vscode/
+*.idea/
+*.iws
+*.iml
+*.ipr
+*.sublime-project
+*.sublime-workspace
+
+# Artifacts
+*.war
+*.zip
+*.tar.gz
+*.tar
+*.tgz
+
+# Sensitive credentials
+*.pem
+*.key
+*.crt
+*.pfx
+*.env
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+.qodo
