@@ -1,129 +1,166 @@
-Certainly! Here's a professionally structured and comprehensive `README.md` for your GitHub repository:
 
----
+
 
 # BigData Indexing using RabbitMQ and Elasticsearch
 
-A RESTful API system for managing structured JSON objects, integrating advanced features such as CRUD operations, JSON Schema validation, Redis key-value storage, Elasticsearch indexing, and asynchronous processing with RabbitMQ.
+A RESTful API system for managing structured JSON objects. It supports CRUD operations, JSON Schema validation, Redis-based key-value storage, Elasticsearch indexing, and asynchronous processing with RabbitMQ.
+
+---
 
 ## 🚀 Features
 
-- **RESTful API**:Supports POST, PUT, PATCH, GET, and DELETE methods for managing JSON data
-- **JSON Schema Validation**:Ensures incoming JSON objects adhere to predefined schemas
-- **Redis Integration**:Stores JSON objects as key-value pairs for efficient retrieval
-- **Elasticsearch Indexing**:Indexes data for advanced search capabilities
-- **RabbitMQ Queueing**:Manages indexing requests asynchronously to enhance performance
-- **ETag-Based Caching**:Implements ETag headers for efficient response caching and validation
+- **RESTful API**: Supports POST, PUT, PATCH, GET, and DELETE methods for JSON data.
+- **JSON Schema Validation**: Ensures incoming data follows predefined schemas.
+- **Redis Integration**: Efficient key-value storage for structured data.
+- **Elasticsearch Indexing**: Enables powerful search capabilities.
+- **RabbitMQ Queueing**: Handles indexing requests asynchronously.
+- **ETag Caching**: Implements ETag headers for cache validation.
+
+---
 
 ## 🛠 Tech Stack
 
-- **Programming Language** Go (Gin-Gonic framewor)
-- **Cache** Reds
-- **Search Engine** Elasticsearh
-- **Message Queue** RabbitQ
-- **Containerization** Docker & Docker Compoe
+- **Language**: Go (Gin-Gonic framework)
+- **Cache**: Redis
+- **Search Engine**: Elasticsearch
+- **Message Broker**: RabbitMQ
+- **Containerization**: Docker & Docker Compose
+
+---
 
 ## 🔄 Data Flow
 
-1. **Authentication*: (If implemented) Secure API access using OAuth 2.0 tokes.
-2. **Validation*: Validate API requests using JSON Schea.
-3. **Data Creation*: Create JSON objects via POST requess.
-4. **Redis Storage*: Store validated JSON objects in Redis as key-value pais.
-5. **Queue Indexing Requests*: Publish messages to RabbitMQ for indexig.
-6. **Elasticsearch Indexing*: Consume messages from RabbitMQ and index data into Elasticsearh.
-7. **Search & Retrieval*: Use Kibana or Elasticsearch APIs to query and retrieve indexed daa.
+1. **Authentication** (if implemented): OAuth 2.0 for secure access.
+2. **Validation**: Validates input using JSON Schema.
+3. **Creation**: Accepts POST requests to store JSON objects.
+4. **Redis Storage**: Persists data as key-value pairs.
+5. **Queueing**: Pushes indexing tasks to RabbitMQ.
+6. **Indexing**: Consumes messages and indexes into Elasticsearch.
+7. **Search**: Data can be queried using Kibana or Elasticsearch APIs.
+
+---
 
 ## 📦 Setup Instructions
 
 ### Prerequisites
 
-Ensure the following are installed on your system:
-- [Go](https://golang.org/doc/instll)
-- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/instal/)
+Make sure the following are installed:
 
-### Clone the Repositoy
+- [Go](https://golang.org/doc/install)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-```bash
+---
+
+Clone the Repository
+
+```
 git clone https://github.com/Shubham290646/BigDataIndexing-using-RabbitMQ-and-Elasticsearch.git
 cd BigDataIndexing-using-RabbitMQ-and-Elasticsearch
-``
-
+```
 
-### Start Services with Docker Compoe
+---
 
-```bash
+### Start Services with Docker Compose
+
+```bash
 docker-compose up -d
-``
+```
 
-This command will start the following services:
+This will start:
+- Redis
+- Elasticsearch
+- Kibana
+- RabbitMQ
 
-- **Redis*: Key-value sore
-- **Elasticsearch*: Search enine
-- **Kibana*: Visualization tool for Elasticserch
-- **RabbitMQ*: Message brker
+---
 
 ### Run the Go Application
 
-In a new terminal window, navigate to the project directory and ru:
-
-```bash
+```bash
 go run main.go
-``
-
+```
+
+---
 
 ### Start the RabbitMQ Consumer
 
-In another terminal window, navigate to the project directory and ru:
-
-```bash
+```bash
 go run consumer/main.go
-``
-
+```
+
+---
 
 ## 🔗 Service Endpoints
 
-- **Elasticsearc**: [http://localhost:9200](http://localhost:200)
-- **Kiban**: [http://localhost:5601](http://localhost:601)
-- **RabbitMQ Managemen**: [http://localhost:15672](http://localhost:1672)
-  - **Usernam**: uest
-  - **Passwor**: uest
+- **Elasticsearch**: [http://localhost:9200](http://localhost:9200)
+- **Kibana**: [http://localhost:5601](http://localhost:5601)
+- **RabbitMQ Admin**: [http://localhost:15672](http://localhost:15672)
+  - Username: `guest`
+  - Password: `guest`
+
+---
 
 ## 📚 API Endpoints
 
 ### Plan Management
 
-- **Create Pln**: `POST /v1plan`
-  - Creates a new plan from the requestbody.
+- `POST /v1/plan`: Create a new plan
+- `PUT /v1/plan/{id}`: Update a plan (requires valid ETag)
+- `PATCH /v1/plan/{id}`: Partial update (requires valid ETag)
+- `GET /v1/plan/{id}`: Retrieve a plan (supports ETag caching)
+- `DELETE /v1/plan/{id}`: Delete a plan (requires valid ETag)
 
-- **Update Pln**: `PUT /v1/plan{id}`
-  - Updates an existing plan by ID. Requires a valid ETag in the `If-Match` hader.
+---
 
-- **Patch Pln**: `PATCH /v1/plan{id}`
-  - Partially updates an existing plan by ID. Requires a valid ETag in the `If-Match` hader.
+## 🧪 Testing
 
-- **Retrieve Pln**: `GET /v1/plan{id}`
-  - Retrieves a plan by ID. Optionally provide an ETag in the `If-None-Match` header for cahing.
+Use tools like [Postman](https://www.postman.com/) or `curl` to test the API. Make sure to send appropriate headers:
 
-- **Delete Pln**: `DELETE /v1/plan{id}`
-  - Deletes a plan by ID. Requires a valid ETag in the `If-Match` hader.
+- `Content-Type: application/json`
+- `If-Match` / `If-None-Match` for ETag-based endpoints
 
-## 🧪 Testing the API
+---
 
-You can use tools like [Postman](https://www.postman.com/) or [cURL](https://curl.se/) to test the API endpoints. Ensure that the necessary headers (e.g., `Content-Type`, `If-Match`, `If-None-Match`) are set appropriately.
+## 📁 Project Structure
 
-## 📁 Project Strcture
-
-```plaintext
+```plaintext
 ├── consumer/             # RabbitMQ consumer service
 ├── data/                 # Sample data and JSON schemas
 ├── database/             # Database connection and initialization
 ├── elastic/              # Elasticsearch integration
 ├── handlers/             # HTTP request handlers
-├── middleware/           # Custom middleware functions
+├── middleware/           # Custom middleware
 ├── models/               # Data models and schemas
-├── rabbitmq/             # RabbitMQ publisher and connection setup
-├── repositories/         # Data access layer
+├── rabbitmq/             # RabbitMQ connection and publisher
+├── repositories/         # Data access logic
 ├── routes/               # API route definitions
-├── services/             # Business logic and services
-├── docker-compose.yaml   # Docker Compose configuration
-├── go.mod                # 
+├── services/             # Business logic
+├── docker-compose.yaml   # Docker Compose setup
+├── go.mod                # Go modules config
+└── main.go               # Main application entry
+```
+
+---
+
+## 👨‍💻 Author
+
+Shubham Khandekar  
+[GitHub](https://github.com/Shubham290646)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+```
+
+---
+
+Let me know if you want me to:
+
+- Add **example API request/responses**
+- Include a **demo screenshot or architecture diagram**
+- Write a **short project summary for LinkedIn/portfolio**
+
+You're good to go with this now 🔥
